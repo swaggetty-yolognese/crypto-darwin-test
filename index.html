@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+
+    <style>
+      .hidden {
+        display: none
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="text-center">
+        Idiot Test
+      </h1>
+
+      <h4 class="text-center">
+        Are your 12 bitcoin wallet safe words too common?
+      </h4>
+
+      <div class="alert alert-primary hidden user-alert" role="alert">
+      </div>
+
+      <form id="secret-words-form">
+        <div class="form-group">
+          <label for="secret-words">Your words</label>
+
+          <textarea
+            name="secret-words"
+            id="secret-words" cols="30" rows="10" class="form-control">
+          </textarea>
+        </div>
+
+        <div class="text-right">
+          <button type="submit" class="btn btn-primary">
+            Check
+          </button>
+        </div>
+      </form>
+    </div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+    <script src="/js/unorm.js"></script>
+    <script src="/js/sjcl-bip39.js"></script>
+    <script src="/js/wordlist_english.js"></script>
+    <script src="/js/wordlist_japanese.js"></script>
+    <script src="/js/wordlist_spanish.js"></script>
+    <script src="/js/wordlist_chinese_simplified.js"></script>
+    <script src="/js/wordlist_chinese_traditional.js"></script>
+    <script src="/js/wordlist_french.js"></script>
+    <script src="/js/wordlist_italian.js"></script>
+    <script src="/js/wordlist_korean.js"></script>
+    <script src="/js/jsbip39.js"></script>
+
+    <script>
+      $(document).ready(() => {
+        const mnemonic = new Mnemonic('english')
+        const userWordsValid = (words) => mnemonic.check(words)
+
+        const form = $('#secret-words-form')
+        const secretWordsInput = $('#secret-words')
+        const userAlert = $('.user-alert')
+
+        secretWordsInput.on('change', () => {
+          userAlert.hide()
+        })
+
+        form.on('submit', (event) => {
+          event.preventDefault()
+
+          const secretWords = secretWordsInput.val()
+
+          const userMessage = userWordsValid(secretWords)
+            ? 'You, sir, are an idiot'
+            : 'This is not a valid set of words'
+
+          const userAlertClasses = userWordsValid(secretWords)
+            ? 'primary'
+            : 'danger'
+
+          userAlert.text(userMessage)
+          userAlert.addClass(userMessage)
+          userAlert.show()
+        })
+      })
+    </script>
+  </body>
+</html>
